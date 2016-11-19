@@ -14,7 +14,7 @@
  */
 
 /**
- * Proceedings.java
+ * Documents.java
  * Copyright (C) 2016 University of Waikato, Hamilton, NZ
  */
 
@@ -30,7 +30,7 @@ import java.util.Map;
  * @author FracPete (fracpete at waikato dot ac dot nz)
  * @version $Revision$
  */
-public class Proceedings
+public class Documents
   extends ArrayList<Document>
   implements YamlObject<List<Map>> {
 
@@ -56,10 +56,10 @@ public class Proceedings
    * @param value	the maps
    * @return		the compiler, null if failed to reconstruct
    */
-  public static Proceedings fromYaml(List value) {
-    Proceedings result;
+  public static Documents fromYaml(List value) {
+    Documents result;
 
-    result = new Proceedings();
+    result = new Documents();
     for (Object obj: value)
       result.add(Document.fromYaml((Map<String, Object>) obj));
 
