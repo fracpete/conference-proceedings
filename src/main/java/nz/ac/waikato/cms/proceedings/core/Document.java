@@ -38,6 +38,9 @@ public class Document
   /** the file. */
   protected String m_File;
 
+  /** whether it is a supplemental document. */
+  protected boolean m_Supplemental;
+
   /**
    * Sets the name of the compiler to use.
    *
@@ -75,6 +78,24 @@ public class Document
   }
 
   /**
+   * Sets whether this document is a supplemental one.
+   *
+   * @param value	true if supplemental
+   */
+  public void setSupplemental(boolean value) {
+    m_Supplemental = value;
+  }
+
+  /**
+   * Returns whether this is a supplemental document.
+   *
+   * @return		true if supplemental
+   */
+  public boolean getSupplemental() {
+    return m_Supplemental;
+  }
+
+  /**
    * Returns the document in yaml notation.
    *
    * @return		the representation
@@ -86,6 +107,7 @@ public class Document
     result = new HashMap<>();
     result.put("compiler", getCompiler());
     result.put("file", getFile());
+    result.put("supplemental", getSupplemental());
 
     return result;
   }
@@ -107,6 +129,8 @@ public class Document
     result = new Document();
     result.setCompiler((String) value.get("compiler"));
     result.setFile((String) value.get("file"));
+    if (value.containsKey("supplemental"))
+      result.setSupplemental((Boolean) value.get("supplemental"));
 
     return result;
   }
@@ -117,6 +141,6 @@ public class Document
    * @return		the representation
    */
   public String toString() {
-    return m_Compiler + ": " + m_File;
+    return m_Compiler + ": " + m_File + " , supplemental=" + getSupplemental();
   }
 }
