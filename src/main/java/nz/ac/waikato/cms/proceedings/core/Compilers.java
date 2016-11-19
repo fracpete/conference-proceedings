@@ -35,20 +35,21 @@ import java.util.Map;
  * @version $Revision$
  */
 public class Compilers
-  extends ArrayList<AbstractCompiler> {
+  extends ArrayList<AbstractCompiler>
+  implements YamlObject<List<Map>> {
 
   /**
    * Returns the compiler objects as map objects for yaml.
    *
    * @return		the maps
    */
-  public Map[] toYaml() {
-    Map[]	result;
+  public List<Map> toYaml() {
+    List<Map>	result;
     int		i;
 
-    result = new Map[size()];
+    result = new ArrayList<>();
     for (i = 0; i < size(); i++)
-      result[i] = get(i).toYaml();
+      result.add(get(i).toYaml());
 
     return result;
   }
@@ -60,16 +61,6 @@ public class Compilers
    * @return		the compiler, null if failed to reconstruct
    */
   public static Compilers fromYaml(List value) {
-    return fromYaml(value.toArray(new Object[value.size()]));
-  }
-
-  /**
-   * Restores the compilers from the map representations.
-   *
-   * @param value	the maps
-   * @return		the compiler, null if failed to reconstruct
-   */
-  public static Compilers fromYaml(Object[] value) {
     Compilers		result;
 
     result = new Compilers();

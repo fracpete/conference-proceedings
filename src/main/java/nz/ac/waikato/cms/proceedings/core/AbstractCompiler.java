@@ -33,7 +33,8 @@ import java.util.Map;
  * @author FracPete (fracpete at waikato dot ac dot nz)
  * @version $Revision$
  */
-public abstract class AbstractCompiler {
+public abstract class AbstractCompiler
+  implements YamlObject<Map<String,Object>> {
 
   /** the name of the compiler. */
   protected String m_Name;
