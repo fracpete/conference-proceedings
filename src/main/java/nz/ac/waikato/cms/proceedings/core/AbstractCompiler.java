@@ -21,8 +21,11 @@
 package nz.ac.waikato.cms.proceedings.core;
 
 import nz.ac.waikato.cms.core.FileUtils;
+import nz.ac.waikato.cms.core.Utils;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Specification for a compiler.
@@ -145,6 +148,64 @@ public abstract class AbstractCompiler {
     result = check(document);
     if (result == null)
       result = doCompile(document);
+
+    return result;
+  }
+
+  /**
+   * Returns a short description.
+   *
+   * @return		the description
+   */
+  public String toString() {
+    return getName() + ": " + getExecutable() + " " + (getOptions() != null ? Utils.flatten(getOptions(), "") : "");
+  }
+
+  /**
+   * Returns the compiler as map object for yaml.
+   *
+   * @return		the map representation
+   */
+  public Map<String,Object> toYaml() {
+    Map<String,Object>	result;
+
+    result = new HashMap<>();
+    result.put("class", getClass().getName());
+    result.put("name", getName());
+    result.put("executable", getExecutable());
+    if (getOptions() != null)
+      result.put("options", getOptions());
+
+    return result;
+  }
+
+  /**
+   * Restores the compiler from the map representation.
+   *
+   * @param value	the map representation
+   * @return		the compiler, null if failed to reconstruct
+   */
+  public static AbstractCompiler fromYaml(Map<String,Object> value) {
+    AbstractCompiler 	result;
+
+    if (!value.containsKey("class"))
+      return null;
+    if (!value.containsKey("name"))
+      return null;
+    if (!value.containsKey("executable"))
+      return null;
+
+    try {
+      result = (AbstractCompiler) Class.forName((String) value.get("class")).newInstance();
+    }
+    catch (Exception e) {
+      return null;
+    }
+
+    result.setExecutable((String) value.get("executable"));
+    result.setName((String) value.get("name"));
+    if (value.containsKey("options"))
+      result.setOptions((String[]) value.get("options"));
 
     return result;
   }
